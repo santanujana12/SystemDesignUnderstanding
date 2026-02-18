@@ -1,0 +1,19 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 30
+      arrivalRate: 50  # 50 requests per second
+      name: "Sustained load"
+
+scenarios:
+  - name: "Shorten random URLs"
+    flow:
+      - post:
+          url: "/shorten"
+          json:
+            url: "https://example.com/{{ $randomNumber() }}"
+  
+  - name: "Random redirects"
+    flow:
+      - get:
+          url: "/test{{ $randomNumber(1, 100) }}"

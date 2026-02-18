@@ -3,6 +3,7 @@ import {
   URLRedirectController,
   URLShortController,
 } from "../controllers/URLShortController.js";
+import { shortenLimiter, redirectLimiter } from "../middleware/rateLimiter.js";
 
 export const route = express.Router();
 
@@ -10,7 +11,7 @@ route.get("/", (req, res) => {
   res.send("Welcome to URL Shortener");
 });
 
-route.post("/shorten", (req, res) => {
+route.post("/shorten", shortenLimiter, (req, res) => {
   const { url } = req.body;
   if (!url) {
     return res.status(400).send("Please provide a URL to shorten.");
@@ -19,7 +20,7 @@ route.post("/shorten", (req, res) => {
   res.status(200).json(shortenedUrl);
 });
 
-route.get("/:urlId", (req, res) => {
+route.get("/:urlId", redirectLimiter, (req, res) => {
   const { urlId } = req.params;
   try {
     const originalUrl = URLRedirectController(urlId);

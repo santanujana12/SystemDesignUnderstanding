@@ -30,7 +30,7 @@ const deleteExpiredUrls = () => {
 
 // Runs every day at midnight
 export const startCleanupJob = () => {
-  cron.schedule("0 0 * * *", deleteExpiredUrls);
+  cron.schedule("* * * * *", deleteExpiredUrls);
   console.log("Cleanup job scheduled");
 };
 
