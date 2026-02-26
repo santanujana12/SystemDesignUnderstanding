@@ -1,5 +1,6 @@
 import { db } from "../db/db.js";
 import { cache } from "../db/cache.js";
+import { trackAnalytics } from "./analyticsController.js";
 
 export const URLShortController = (url, expiresInDays = 1) => {
   const is_valid_url = /^(ftp|http|https):\/\/[^ "]+$/.test(url);
@@ -40,7 +41,7 @@ export const URLShortController = (url, expiresInDays = 1) => {
   return `${process.env.BASE_URL}/${code}`;
 };
 
-export const URLRedirectController = (code) => {
+export const URLRedirectController = (code,req) => {
   // Check cache first — key is code, value is original_url
   const cachedUrl = cache.get(code);
   if (cachedUrl) {
@@ -60,6 +61,8 @@ export const URLRedirectController = (code) => {
 
   // Warm the cache for next time
   cache.set(code, row.original_url);
+
+  trackAnalytics(code, req);
 
   return row.original_url;
 };

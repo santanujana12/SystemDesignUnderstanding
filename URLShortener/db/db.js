@@ -12,3 +12,22 @@ db.exec(`
   expires_at DATETIME NOT NULL
 )
 `);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS analytics (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT NOT NULL,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ip_address TEXT,
+    user_agent TEXT,
+    referrer TEXT,
+    FOREIGN KEY (code) REFERENCES urls(code)
+  )
+`);
+
+
+// Indexing for faster lookups
+db.exec(`
+  CREATE INDEX IF NOT EXISTS idx_analytics_code ON analytics(code);
+  CREATE INDEX IF NOT EXISTS idx_analytics_timestamp ON analytics(timestamp);
+`);
