@@ -6,8 +6,4 @@ public class UrlNotFoundException extends RuntimeException {
     }
 }
 
-class RateLimitExceededException extends RuntimeException {
-    public RateLimitExceededException(String message) {
-        super(message);
-    }
-}
+

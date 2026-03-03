@@ -14,17 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShortenUrlResponse {
-    
-    @JsonProperty("shortenedUrl")
-    private String shortenedUrl;
-}
-
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-class AnalyticsResponse {
+public class AnalyticsResponse {
     
     private String url;
     
